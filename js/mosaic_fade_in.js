@@ -69,8 +69,8 @@
           const img = new Image()
           img.src = url
           img.onload = () => {
-            container.width = img.naturalWidth
-            container.height = img.naturalHeight
+            container.style.width = `${img.naturalWidth}px`
+            container.style.height = `${img.naturalHeight}px`
             tag.width = img.naturalWidth
             tag.height = img.naturalHeight
             ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight)
