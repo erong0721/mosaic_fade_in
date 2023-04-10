@@ -72,19 +72,19 @@
         }
       }
       setupCanvas()
-      setTimeout(()=>mosaic(60), 100)
+      setTimeout(()=>mosaic(20), 100)
       async function start() {
         const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
         const t = 100
-        mosaic(50)
+        mosaic(18)
         await sleep(t)
-        mosaic(40)
-        await sleep(t)
-        mosaic(30)
-        await sleep(t)
-        mosaic(20)
+        mosaic(13)
         await sleep(t)
         mosaic(10)
+        await sleep(t)
+        mosaic(8)
+        await sleep(t)
+        mosaic(5)
         await sleep(t)
         setupCanvas(selector, url)
       }
