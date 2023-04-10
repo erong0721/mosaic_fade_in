@@ -3,22 +3,21 @@
  * Released under the MIT License
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.AMD ? define(factory) : (global = global || self, global.MosaicFadeIn = factory());
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.AMD ? define(factory) : (global = global || self, global.MosaicFadeInSingle = factory());
 }(this, function () {
   'use strict';
-  class MosaicFadeIn {
+  class MosaicFadeInSingle {
     constructor(options) {
       const container = document.querySelector(options.selector)
       if (!container) {
         throw new Error('can not find selector.')
       }
-      const imgs = options.imgs
-      const selector1 = `canvas1${new Date().getTime().toString()}`
-      const selector2 = `canvas2${new Date().getTime().toString()}`
+      const url = options.img
+      const selector = `canvas${new Date().getTime().toString()}`
       container.style.position = 'relative'
       container.style.display = 'inline-block'
-      const mosaic = (selector, size) => {
-        const canvas = document.querySelector(selector)
+      const mosaic = (size) => {
+        const canvas = document.querySelector(`.${selector}`)
         const _canvas = document.createElement('canvas')
         if (!canvas || !canvas.getContext) {
           throw new Error()
@@ -53,10 +52,9 @@
         }
         exec()
       }
-      const setupCanvas = (selector, url, display = 'block') => {
+      const setupCanvas = () => {
         const tag = document.createElement('canvas')
         tag.classList.add(selector)
-        tag.style.display = display
         tag.style.position = 'absolute'
         tag.top = 0
         tag.left = 0
@@ -73,41 +71,29 @@
           ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight)
         }
       }
-      setupCanvas(selector1, imgs[0])
-      setupCanvas(selector2, imgs[1], 'none')
-      async function start(from, to) {
+      setupCanvas()
+      setTimeout(()=>mosaic(60), 100)
+      async function start() {
         const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
         const t = 100
-        mosaic(from, 10)
+        mosaic(50)
         await sleep(t)
-        mosaic(from, 20)
+        mosaic(40)
         await sleep(t)
-        mosaic(from, 30)
+        mosaic(30)
         await sleep(t)
-        mosaic(from, 40)
+        mosaic(20)
         await sleep(t)
-        mosaic(from, 50)
+        mosaic(10)
         await sleep(t)
-        container.querySelector(from).style.display = 'none'
-        container.querySelector(to).style.display = 'block'
-        mosaic(to, 50)
-        await sleep(t)
-        mosaic(to, 40)
-        await sleep(t)
-        mosaic(to, 30)
-        await sleep(t)
-        mosaic(to, 20)
-        await sleep(t)
-        mosaic(to, 10)
-        await sleep(t)
-        setupCanvas(to, imgs[1])
+        setupCanvas(selector, url)
       }
       const mouseenter = () => {
-        start(`.${selector1}`, `.${selector2}`)
+        start()
         container.removeEventListener('mouseenter', mouseenter)
       }
       container.addEventListener('mouseenter', mouseenter)
     }
   }
-  return MosaicFadeIn
+  return MosaicFadeInSingle
 }))
